@@ -12,16 +12,20 @@ read.data <- function(){
                         Sub_metering_1 = as.numeric(Sub_metering_1),
                         Sub_metering_2 = as.numeric(Sub_metering_2), 
                         Sub_metering_3 = as.numeric(Sub_metering_3))
+        
+        dt[,DateTime := as.POSIXct(paste(Date, Time))]
         dt
-        
-        
 }
 
 saveto.png <- function(){
-        dev.copy(png, file="plot1.png", height=480, width=480)
+        dev.copy(png, file="plot3.png", height=480, width=850)
         dev.off()
 }
 
 plot.chart <- function(df = read.data()){
-        hist(df$Global_active_power, col = "red", main="Global Active Power", xlab="Global Active Power (kilowatts)", ylab="Frequency")
+        plot(df$Sub_metering_1 ~ df$DateTime, type="l", ylab="Ernergy sub metering", xlab="", col = "black")  
+        lines(df$Sub_metering_2 ~ df$DateTime, col = "red")
+        lines(df$Sub_metering_3 ~ df$DateTime, col = "blue")
+        legend("topright", lty = c(1,1,1), col = c("black", "red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+        
 }
